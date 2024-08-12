@@ -1,6 +1,5 @@
 ﻿using HotelManagement.DataAccess.Abstract;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace HotelManagement.DataAccess.Concrete;
 

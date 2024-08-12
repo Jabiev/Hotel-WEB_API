@@ -1,7 +1,6 @@
 ﻿using HotelManagement.Business.Interfaces;
 using HotelManagement.Core.Entities;
 using HotelManagement.DataAccess.Abstract;
-using HotelManagement.DataAccess.Concrete;
 
 namespace HotelManagement.Business.Implementations;
 

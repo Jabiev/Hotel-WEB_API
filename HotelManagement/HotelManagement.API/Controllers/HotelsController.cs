@@ -1,7 +1,5 @@
-﻿using HotelManagement.Business.Implementations;
-using HotelManagement.Business.Interfaces;
+﻿using HotelManagement.Business.Interfaces;
 using HotelManagement.Core.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.API.Controllers;

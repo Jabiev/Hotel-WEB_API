@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace HotelManagement.DataAccess.Abstract;
+﻿namespace HotelManagement.DataAccess.Abstract;
 
 public interface IRepository<T> where T : class
 {
