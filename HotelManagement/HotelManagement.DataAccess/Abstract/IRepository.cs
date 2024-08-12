@@ -8,6 +8,5 @@ public interface IRepository<T> where T : class
     T Update(T obj);
     void Delete(T obj);
     IQueryable<T> FindAll();
-    IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
     Task<T> GetByIdAsync(int id);
 }

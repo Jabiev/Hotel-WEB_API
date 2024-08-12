@@ -50,11 +50,21 @@ public class HotelService : IHotelService
         return hotel;
     }
 
-    public async Task<List<Hotel>> Search(string? search)
+    public List<Hotel> SearchByName(string? search)
     {
         if (string.IsNullOrEmpty(search))
             throw new Exception("That can't be null or empty");
         var hotels = GetAll().FindAll(h => h.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
+        if (hotels is null || !hotels.Any())
+            throw new Exception("The objects(or object) with that name were not found");
+        return hotels;
+    }
+
+    public List<Hotel> SearchByRegion(string regionName)
+    {
+        if (string.IsNullOrEmpty(regionName))
+            throw new Exception("Search term cannot be null or empty.");
+        var hotels = _wrapper.Hotel.FindByCondition(h => h.Region.ToUpper().Equals(regionName.ToUpper())).ToList();
         if (hotels is null || !hotels.Any())
             throw new Exception("The objects(or object) with that name were not found");
         return hotels;

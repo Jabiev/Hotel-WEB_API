@@ -9,5 +9,6 @@ public interface IHotelService
     Task Delete(int id);
     List<Hotel> GetAll();
     Task<Hotel> GetById(int id);
-    Task<List<Hotel>> Search(string? search);
+    List<Hotel> SearchByName(string? search);
+    List<Hotel> SearchByRegion(string? search);
 }
