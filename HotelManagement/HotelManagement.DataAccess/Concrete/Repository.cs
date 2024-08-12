@@ -1,6 +1,5 @@
 ﻿using HotelManagement.DataAccess.Abstract;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace HotelManagement.DataAccess.Concrete;
 
@@ -30,6 +29,4 @@ public abstract class Repository<T> : IRepository<T> where T : class
     public IQueryable<T> FindAll() => Context.Set<T>().AsNoTracking();
 
     public async Task<T> GetByIdAsync(int id) => await Context.Set<T>().FindAsync(id);
-
-    public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression) => Context.Set<T>().Where(expression).AsNoTracking();
 }

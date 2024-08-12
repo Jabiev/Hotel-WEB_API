@@ -1,7 +1,5 @@
-﻿using HotelManagement.Business.Implementations;
-using HotelManagement.Business.Interfaces;
+﻿using HotelManagement.Business.Interfaces;
 using HotelManagement.Core.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagement.API.Controllers;
@@ -17,6 +15,31 @@ public class HotelsController : ControllerBase
     }
 
     /// <summary>
+    /// Returns the supported HTTP methods for this controller.
+    /// This method is useful for discovering the capabilities of the API endpoint.
+    /// </summary>
+    /// <returns></returns>
+    [HttpOptions]
+    public IActionResult Options()
+    {
+        Response.Headers.Add("Allow", "Head, Get, Post, Put, Delete");
+        return Ok();
+    }
+
+    /// <summary>
+    /// returns only the headers, without the body
+    /// </summary>
+    /// <returns></returns>
+    [HttpHead]
+    public IActionResult Head()
+    {
+        var getAll = _hotelService.GetAll();
+        if (getAll == null || !getAll.Any())
+            return NotFound();
+        return Ok(getAll);
+    }
+
+    /// <summary>
     /// for Getting All Hotels
     /// </summary>
     /// <returns></returns>
@@ -25,7 +48,7 @@ public class HotelsController : ControllerBase
     public IActionResult GetHotels()
     {
         var getAll = _hotelService.GetAll();
-        if (getAll == null || !getAll.Any())
+        if (getAll is null || !getAll.Any())
             return NotFound();
         return Ok(getAll);
     }
@@ -64,13 +87,13 @@ public class HotelsController : ControllerBase
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    [HttpGet("{search}")]
-    //[Route("[action]/{search}")]
-    public async Task<IActionResult> Search(string search)
+    [HttpGet]
+    [Route("[action]/{search}")]
+    public IActionResult SearchByName(string search)
     {
         try
         {
-            var hotels = await _hotelService.Search(search);
+            var hotels = _hotelService.SearchByName(search);
             return Ok(hotels);
         }
         catch (Exception ex)
@@ -78,6 +101,26 @@ public class HotelsController : ControllerBase
             return NotFound(ex.Message);
         }
 
+    }
+
+    /// <summary>
+    /// Hotel(s) Which is according the Region you gave(Please Enter FullName of that)
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [HttpGet]
+    [Route("[action]/{search}")]
+    public IActionResult SearchByRegion(string search)
+    {
+        try
+        {
+            var hotels = _hotelService.SearchByRegion(search);
+            return Ok(hotels);
+        }
+        catch (Exception ex)
+        {
+            return NotFound(ex.Message);
+        }
     }
 
     /// <summary>

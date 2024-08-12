@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace HotelManagement.DataAccess.Abstract;
+﻿namespace HotelManagement.DataAccess.Abstract;
 
 public interface IRepository<T> where T : class
 {
@@ -8,6 +6,5 @@ public interface IRepository<T> where T : class
     T Update(T obj);
     void Delete(T obj);
     IQueryable<T> FindAll();
-    IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
     Task<T> GetByIdAsync(int id);
 }
