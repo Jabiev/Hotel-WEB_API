@@ -1,4 +1,5 @@
-﻿using HotelManagement.Business.Interfaces;
+﻿using AutoMapper;
+using HotelManagement.Business.Interfaces;
 using HotelManagement.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,12 @@ namespace HotelManagement.API.Controllers;
 public class HotelsController : ControllerBase
 {
     private IHotelService _hotelService;
-    public HotelsController(IHotelService hotelService)
+    private readonly IMapper _mapper;
+
+    public HotelsController(IHotelService hotelService, IMapper mapper)
     {
         _hotelService = hotelService;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -64,8 +68,8 @@ public class HotelsController : ControllerBase
     {
         try
         {
-            var hotel = await _hotelService.GetById(id);
-            return Ok(hotel);
+            var hotelDTO = _mapper.Map<HotelDTO>(await _hotelService.GetById(id));
+            return Ok(hotelDTO);
         }
         catch (Exception ex)
         {
@@ -93,8 +97,8 @@ public class HotelsController : ControllerBase
     {
         try
         {
-            var hotels = _hotelService.SearchByName(search);
-            return Ok(hotels);
+            var hotelDTOs = _mapper.Map<List<Hotel>, List<HotelDTO>>(_hotelService.SearchByName(search));
+            return Ok(hotelDTOs);
         }
         catch (Exception ex)
         {
@@ -114,8 +118,8 @@ public class HotelsController : ControllerBase
     {
         try
         {
-            var hotels = _hotelService.SearchByRegion(search);
-            return Ok(hotels);
+            var hotelDTOs = _mapper.Map<List<Hotel>, List<HotelDTO>>(_hotelService.SearchByRegion(search));
+            return Ok(hotelDTOs);
         }
         catch (Exception ex)
         {
@@ -130,10 +134,11 @@ public class HotelsController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     //[Route("[action]")]
-    public async Task<IActionResult> Post([FromBody] Hotel hotel)
+    public async Task<IActionResult> Post([FromBody] HotelDTO hotelDTO)
     {
         try
         {
+            Hotel hotel = _mapper.Map<Hotel>(hotelDTO);
             await _hotelService.Create(hotel);
             return Ok(hotel);
         }
