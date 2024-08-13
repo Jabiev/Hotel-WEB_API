@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 
 builder.Services.ConfigureHotelService();
 builder.Services.ConfigureRepositoryWrapper();
+builder.Services.ConfigureMappingProfile();
 
 builder.Services.AddSwaggerDocument(configure =>
 {
